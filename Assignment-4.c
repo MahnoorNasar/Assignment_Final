@@ -56,6 +56,48 @@ int main()//main function
     return 0;
     getch();
 }
+//function to add record
+void add(FILE*fp){
+	   	ptr=fopen("assi4.dat","w+");
+	   	if(ptr==NULL){
+		printf("fILE cannot be opened");
+	}
+	int num=0;
+	int flag=0;
+	   printf("Please enter details of patient:\n");
+		printf("Enter Id: ");
+		scanf("%d",&s.id);
+		num=s.id;
+		//if patient already exist
+		while(fread(&s,sizeof(struct patient),1,ptr)==1){
+			if(num==s.id){
+				flag=1;
+				break;
+			}
+		}
+		fflush(stdin);
+		printf("Enter name: ");
+		gets(s.name);
+		fflush(stdin);
+		printf("Enter phone number:");
+		gets(s.phone_no );
+		fflush(stdin);
+		printf("Enter CNIC of patient:");
+		gets(s.CNIC);
+		printf("Disease:");
+		gets(s.disease);
+		fflush(stdin);
+		printf("Press 1 to admit or 0 for not:");
+		scanf("%d",&s.isadmitted);
+		fwrite(&s,sizeof(struct patient),1,ptr);
+		if(flag==0){
+		printf("\nData is stored successfully");
+	}
+	else{
+		printf("ID already exist");
+	}
+		fclose(ptr);
+}
 //function to delete record
 void deleteRecord(FILE*fp)
 {
