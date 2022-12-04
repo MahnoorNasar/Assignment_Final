@@ -57,7 +57,7 @@ int main()//main function
     getch();
 }
 //function to add record
-void add(FILE*fp){
+void addrecord(FILE*fp){
 	   	fp=fopen("patient_record.txt","w+");
 	   	if(fp==NULL){
 		printf("file cannot be opened");
@@ -68,7 +68,7 @@ void add(FILE*fp){
 		printf("Enter Id: ");
 		scanf("%d",&p1.id);
 		num=p1.id;
-		//if patient already exist
+		//check if patient id already exist
 		while(fread(&p1,sizeof(struct patientRecord),1,fp)==1){
 			if(num==p1.id){
 				flag=1;
@@ -89,6 +89,7 @@ void add(FILE*fp){
 		fflush(stdin);
 		printf("Press 1 to admit or 0 for not:");
 		scanf("%d",&p1.isadmitted);
+		//writting on a file
 		fwrite(&p1,sizeof(struct patientRecord),1,fp);
 		if(flag==0){
 		printf("\nData is stored successfully");
@@ -135,7 +136,7 @@ void deleteRecord(FILE*fp)
     }
 }
 //function to update record
-void update(FILE*fp){
+void updateRecord(FILE*fp){
 	fp=fopen("patientRecord.txt","w+");
 	if(fp==NULL){
 		printf("File cannot be opened");
@@ -143,9 +144,10 @@ void update(FILE*fp){
 	int check;
 	int flag=1;
 	printf("Enter ID of patient to be updatted: \n");
-	scanf("%d",&check);
+	scanf("%d",&check);//ID that is to be upadted
 	while(fread(&p1,sizeof(struct patientRecord),1,fp)==1){
 		if(check==p1.id){
+			//updating details of patient
 		printf("Enter new data of patient:\n");
 		printf("Enter Id: ");
 		scanf("%d",&p1.id);
@@ -164,6 +166,7 @@ void update(FILE*fp){
 		printf("Press 1 to admit or 0 for not:");
 		scanf("%d",&p1.isadmitted);
 		fseek(fp,-1,SEEK_CUR);
+		//writting new datails of patient
 		fwrite(&p1,sizeof(struct patientRecord),1,fp);
 		printf("\nData is updated successfully");
 		break;
@@ -206,4 +209,19 @@ void searchRecord(FILE*fp)
          printf("\nRecord not found");
      }
     fclose(fp);//closing file
+}
+//function to dispaly function
+void displayRecord(FILE*fp){
+		fp=fopen("patient_record.txt","r");
+		if(fp==NULL){
+		printf("file cannot be opened");
+	}
+		fread(&p1,sizeof(struct patientRecord),1,fp);
+		printf("\nID:%d",p1.id);
+		printf("\nName:%s",p1.name);
+		printf("\nPhone Number:%s",p1.phone_no);
+		printf("\nCNIC:%s",p1.CNIC);
+		printf("\nDisease:%s",p1.disease);
+		printf("\nPatient is amitted or not:%d",p1.isadmitted);
+		fclose(fp);
 }
