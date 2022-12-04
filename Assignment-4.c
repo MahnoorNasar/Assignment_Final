@@ -58,45 +58,45 @@ int main()//main function
 }
 //function to add record
 void add(FILE*fp){
-	   	ptr=fopen("assi4.dat","w+");
-	   	if(ptr==NULL){
-		printf("fILE cannot be opened");
+	   	fp=fopen("patient_record.txt","w+");
+	   	if(fp==NULL){
+		printf("file cannot be opened");
 	}
 	int num=0;
 	int flag=0;
 	   printf("Please enter details of patient:\n");
 		printf("Enter Id: ");
-		scanf("%d",&s.id);
-		num=s.id;
+		scanf("%d",&p1.id);
+		num=p1.id;
 		//if patient already exist
-		while(fread(&s,sizeof(struct patient),1,ptr)==1){
-			if(num==s.id){
+		while(fread(&p1,sizeof(struct patientRecord),1,fp)==1){
+			if(num==p1.id){
 				flag=1;
 				break;
 			}
 		}
 		fflush(stdin);
 		printf("Enter name: ");
-		gets(s.name);
+		gets(p1.name);
 		fflush(stdin);
 		printf("Enter phone number:");
-		gets(s.phone_no );
+		gets(p1.phone_no );
 		fflush(stdin);
 		printf("Enter CNIC of patient:");
-		gets(s.CNIC);
+		gets(p1.CNIC);
 		printf("Disease:");
-		gets(s.disease);
+		gets(p1.disease);
 		fflush(stdin);
 		printf("Press 1 to admit or 0 for not:");
-		scanf("%d",&s.isadmitted);
-		fwrite(&s,sizeof(struct patient),1,ptr);
+		scanf("%d",&p1.isadmitted);
+		fwrite(&p1,sizeof(struct patientRecord),1,fp);
 		if(flag==0){
 		printf("\nData is stored successfully");
 	}
 	else{
 		printf("ID already exist");
 	}
-		fclose(ptr);
+		fclose(fp);
 }
 //function to delete record
 void deleteRecord(FILE*fp)
@@ -133,6 +133,50 @@ void deleteRecord(FILE*fp)
         printf("Does not exist");
         }
     }
+}
+//function to update record
+void update(FILE*fp){
+	fp=fopen("patientRecord.txt","w+");
+	if(fp==NULL){
+		printf("File cannot be opened");
+	}
+	int check;
+	int flag=1;
+	printf("Enter ID of patient to be updatted: \n");
+	scanf("%d",&check);
+	while(fread(&p1,sizeof(struct patientRecord),1,fp)==1){
+		if(check==p1.id){
+		printf("Enter new data of patient:\n");
+		printf("Enter Id: ");
+		scanf("%d",&p1.id);
+		fflush(stdin);
+		printf("Enter name: ");
+		gets(p1.name);
+		fflush(stdin);
+		printf("Enter phone number:");
+		gets(p1.phone_no );
+		fflush(stdin);
+		printf("Enter CNIC of patient:");
+		gets(p1.CNIC);
+		printf("Disease:");
+		gets(p1.disease);
+		fflush(stdin);
+		printf("Press 1 to admit or 0 for not:");
+		scanf("%d",&p1.isadmitted);
+		fseek(fp,-1,SEEK_CUR);
+		fwrite(&p1,sizeof(struct patientRecord),1,fp);
+		printf("\nData is updated successfully");
+		break;
+		}
+	else{
+		flag=0;
+	}
+   }
+   if(flag==0){
+   	printf("ID of patient is not found");
+   }
+   fclose(fp);
+	
 }
 //function for searching record
 void searchRecord(FILE*fp)
