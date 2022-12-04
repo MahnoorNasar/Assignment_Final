@@ -2,6 +2,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include<conio.h>
+//struct for patient record
 struct patientRecord//struct
 {
     int id;
@@ -14,7 +15,9 @@ struct patientRecord//struct
 //function prototypes
 void addrecord(FILE*fp);
 void deleteRecord(FILE*fp);
+void updateRecord(FILE*fp);
 void searchRecord(FILE*fp);
+void displayRecord(FILE*fp);
 int main()//main function
 {
     int choice =0;
